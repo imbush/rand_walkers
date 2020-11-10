@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from numpy import random, std, pi, cos, sin
 
-def pos_hist(walkers:list, num_steps:int, num_bins:int, dimensions = 1, by_radius = True):
+def pos_hist(walkers:list, num_steps:int, num_bins:int, dimensions:int, by_radius = True):
     if dimensions == 1:
         n, bins, patches = plt.hist(walkers, num_bins, density=1, facecolor='g', alpha=0.75)
         plt.title("Walker locations after " + str(num_steps) + " steps")
@@ -21,8 +21,10 @@ def pos_hist(walkers:list, num_steps:int, num_bins:int, dimensions = 1, by_radiu
             walkers_dist = [dist(walker[0],walker[1]) for walker in walkers]
             n, bins, patches = plt.hist(walkers_dist, num_bins, density=0)
             for i in range(len(n)):
-                n[i] = n[i] / (numpy.pi * ((bins[i] + bins[i + 1]) / 2) ** 2)
-            
+                bins[i] = (bins[i] + bins[i + 1]) / 2
+                n[i] = n[i] / (pi * (bins[i]) ** 2)
+            plt.plot(bins[:-1], n, "b.")
+            plt.show()
 
 
 def dist(x:float, y:float) -> float:

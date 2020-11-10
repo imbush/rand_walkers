@@ -31,9 +31,9 @@ def rand_walker_2d(sample_size:int, num_steps:int):
 
 
 if __name__ == "__main__":
-    sample_size = 100000
-    num_steps = 4
+    sample_size = 500000
+    num_steps = 2
 
     walkers, std_devs = rand_walker_2d(sample_size, num_steps)
     # scatter_walker(walkers)
-    pos_hist(walkers, num_steps, 100, 2, False)
+    pos_hist(walkers=walkers, num_steps=num_steps, bins=1000, dimensions=2, by_radius=False)
