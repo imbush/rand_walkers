@@ -36,4 +36,4 @@ if __name__ == "__main__":
 
     walkers, std_devs = rand_walker_2d(sample_size, num_steps)
     # scatter_walker(walkers)
-    pos_hist(walkers=walkers, num_steps=num_steps, bins=1000, dimensions=2, by_radius=False)
+    pos_hist(walkers=walkers, num_steps=num_steps, num_bins=1000, dimensions=2, by_radius=True)

@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from itertools import zip_longest
 
 class polynomial:
@@ -104,15 +105,21 @@ def iterate_set(poly_set:list, n:int):
 
 
 if __name__ == "__main__":
-    n_max = 15
+    n_max = 100
 
-    binom_expansions = [binom_expansion(n) for n in range(300)]
+    binom_expansions = [binom_expansion(n) for n in range(n_max + 1)]
     poly_tree = [[polynomial([1])]]
-
-    print("\n")
     for n in range(1, n_max):
         poly_tree.append(iterate_set(poly_tree[-1], n))
-    for i in range(len(poly_tree)):
-        for item in poly_tree[i]:
-            print(factorial(i) * item)
-        print("\n")
+
+    print("\n")
+    # for i in range(len(poly_tree)):
+    #     for item in poly_tree[i]:
+    #         print(factorial(i) * item)
+    #     print("\n")
+    fac_i = factorial(n_max)
+    coeffs_set = [fac_i * abs(x.coeffs[-3]) for x in poly_tree[-1]]
+    print(coeffs_set)
+    
+    plt.plot(list(range(len(coeffs_set))), coeffs_set, "b-")
+    plt.show()
