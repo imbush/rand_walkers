@@ -1,17 +1,19 @@
 import matplotlib.pyplot as plt
-from numpy import random, std, pi, cos, sin
+from numpy import random, std, pi, cos, sin, polyfit
 from graph import *
 
 
 def rand_walker_1d(sample_size:int, num_steps:int):
     walkers = [0 for _ in range(sample_size)]           # List of walkers with location
     std_devs = []
+    means = []
 
     for _ in range(num_steps):                          # Changes position, num_steps times
         std_devs.append(std(walkers))
+        means.append(sum(walkers)/len(walkers))
         for i in range(len(walkers)):
-            walkers[i] += ((random.rand() * 2) - 1)     # Adds random number from -1 to 1
-    return walkers, std_devs
+            walkers[i] += ((random.rand() * 3) - 1)     # Adds random number from -1 to 1
+    return walkers, std_devs, means
 
 
 def rand_walker_2d(sample_size:int, num_steps:int):
@@ -31,9 +33,12 @@ def rand_walker_2d(sample_size:int, num_steps:int):
 
 
 if __name__ == "__main__":
-    sample_size = 500000
-    num_steps = 2
+    sample_size = 1000000
+    num_steps = 100
 
-    walkers, std_devs = rand_walker_2d(sample_size, num_steps)
+    walkers, std_devs, means = rand_walker_1d(sample_size, num_steps)
     # scatter_walker(walkers)
-    pos_hist(walkers=walkers, num_steps=num_steps, num_bins=1000, dimensions=2, by_radius=True)
+    # print(std_devs)
+    # std_by_steps(std_devs, num_steps, sample_size)
+    # pos_hist(walkers=walkers, num_steps=num_steps, num_bins=100, dimensions=1, by_radius=True, density=1)
+    mean_by_steps(means, num_steps, sample_size)

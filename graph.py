@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
-from numpy import random, std, pi, cos, sin
+from numpy import random, std, pi, cos, sin, polyfit
 
-def pos_hist(walkers:list, num_steps:int, num_bins:int, dimensions:int, by_radius = True):
+def pos_hist(walkers:list, num_steps:int, num_bins:int, dimensions:int, by_radius = True, density=1):
     if dimensions == 1:
-        n, bins, patches = plt.hist(walkers, num_bins, density=1, facecolor='g', alpha=0.75)
+        n, bins, patches = plt.hist(walkers, num_bins, density=density, facecolor='g', alpha=0.75)
         plt.title("Walker locations after " + str(num_steps) + " steps")
         plt.xlabel("Position")
         plt.ylabel("Frequency")
@@ -12,14 +12,14 @@ def pos_hist(walkers:list, num_steps:int, num_bins:int, dimensions:int, by_radiu
         if by_radius:
             walkers_dist = [dist(walker[0],walker[1]) for walker in walkers]
 
-            n, bins, patches = plt.hist(walkers_dist, num_bins, density=1, facecolor='g', alpha=0.75)
+            n, bins, patches = plt.hist(walkers_dist, num_bins, density=density, facecolor='g', alpha=0.75)
             plt.title("Walker locations after " + str(num_steps) + " steps")
             plt.xlabel("Distance from Origin")
             plt.ylabel("Frequency")
             plt.show()
         else: # Scales the bin size by the inverse of the circumference of the circle with the radius in the middle of the bin
             walkers_dist = [dist(walker[0],walker[1]) for walker in walkers]
-            n, bins, patches = plt.hist(walkers_dist, num_bins, density=0)
+            n, bins, patches = plt.hist(walkers_dist, num_bins, density=density)
             for i in range(len(n)):
                 bins[i] = (bins[i] + bins[i + 1]) / 2
                 n[i] = n[i] / (pi * (bins[i]) ** 2)
@@ -39,6 +39,14 @@ def std_by_steps(std_devs:list, num_steps:int, sample_size:int):
     plt.text(4/6 * num_steps, 0.5, "n = " + str(sample_size))
     plt.show()
 
+def mean_by_steps(means:list, num_steps:int, sample_size:int):
+    m, b = polyfit(range(1, len(means) + 1), means, 1)
+    print("m = ", m, ", b = ", b)
+    plt.plot(range(1, len(means) + 1), means)
+    plt.title("Mean by the Number of Steps")
+    plt.xlabel("Number of Steps")
+    plt.ylabel("Mean")
+    plt.show()
 
 def scatter_walker(walkers):
     x = [walker[0] for walker in walkers]
